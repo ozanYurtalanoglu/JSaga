@@ -39,10 +39,14 @@ Each step in the saga represents a separate transaction. If any of these transac
 
 How JSaga Works
 
-JSaga offers some classes to implement orchestration based saga pattern in ease. After you use these classes to implement your own saga, the saga you created works to communicate with other microservices over kafka broker. All you need to do is setup a kafka broker and do necessary configuration in your "build.gradle" and "application.properties" files. 
+JSaga offers some classes to implement orchestration based saga pattern in ease. After you use these classes to implement your own saga, the saga you created works to communicate with other microservices over kafka broker. All you need to do is setup a kafka broker and do necessary configuration in your "build.gradle" and "application.properties" files. You can add jsaga.jar file to your build.gradle file after you download it.(For now I have been some trouble with mavencentral) Also you have to add some dependicies related to kafka. 
 
 
 **build.gradle file**
+    
+    implementation files('/Users/ozan/Desktop/jsaga.jar')
+    implementation 'org.apache.kafka:kafka-streams'
+    implementation 'org.springframework.kafka:spring-kafka'
 
 **application.properties file(localhost:9092 is an example address)**
 
