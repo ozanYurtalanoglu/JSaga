@@ -44,7 +44,7 @@ JSaga offers some classes to implement orchestration based saga pattern in ease.
 
 **build.gradle file**
 
-**application.properties file**
+**application.properties file(localhost:9092 is example address)**
 
 jsaga.kafka-address=localhost:9092
 
