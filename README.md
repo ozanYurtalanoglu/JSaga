@@ -1,4 +1,3 @@
-![](/Users/ozan/Downloads/DALL·E 2023-10-05 12.10.28 - Vector design of five yellow circles in descending sizes, starting from the largest on the left to the smallest on the right, with slight separation b.png)
 # About
 
 JSaga is a software library for creating orchestration based saga pattern in microservice architecture. You can easily create your saga by adding steps to the saga using JSaga. You can also handle compensation scenarios to reverse the data to their initial states in the microservices which are part of the saga. JSaga is avaliable for java programming language for now. You will need to setup a kafka broker for communication between your microservices tu use JSaga.
