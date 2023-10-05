@@ -1,3 +1,4 @@
+![logo]([images/mycoolimage.jpg](https://imgur.com/a/m1i6Fdp))
 # About
 
 JSaga is a software library for creating orchestration based saga pattern in microservice architecture. You can easily create your saga by adding steps to the saga using JSaga. You can also handle compensation scenarios to reverse the data to their initial states in the microservices which are part of the saga. JSaga is avaliable for java programming language for now. You will need to setup a kafka broker for communication between your microservices tu use JSaga.
