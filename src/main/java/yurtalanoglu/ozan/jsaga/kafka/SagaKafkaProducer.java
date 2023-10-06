@@ -3,13 +3,17 @@ package yurtalanoglu.ozan.jsaga.kafka;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.common.header.Headers;
+import org.apache.kafka.common.header.internals.RecordHeaders;
 import org.apache.kafka.common.protocol.types.Field;
 import yurtalanoglu.ozan.jsaga.exception.KafkaConfigurationException;
 import yurtalanoglu.ozan.jsaga.exception.KafkaMessageCouldNotSendException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
+import java.util.UUID;
 
 public class SagaKafkaProducer {
 
@@ -43,20 +47,38 @@ public class SagaKafkaProducer {
         }
     }
 
-    public void sendMessage(SagaKafkaMessage sagaKafkaMessage) throws KafkaMessageCouldNotSendException{
-        ProducerRecord<String, String> record = new ProducerRecord<>(sagaKafkaMessage.getTopicName(), sagaKafkaMessage.getMessageContent());
-        producer.send((record), (metadata, exception) -> {
+    public String sendMessage(SagaKafkaMessage sagaKafkaMessage) throws KafkaMessageCouldNotSendException {
+        // Create a Headers object and add your custom header(s)
+        Headers headers = new RecordHeaders();
+        UUID uuid = UUID.randomUUID();
+        Long uuidLong = uuid.getMostSignificantBits();
+        String uuidString = String.valueOf(uuidLong);
+        headers.add("uuid", uuidString.getBytes(StandardCharsets.UTF_8));
+
+        // Use the constructor of ProducerRecord that allows to set headers
+        ProducerRecord<String, String> record = new ProducerRecord<>(
+                sagaKafkaMessage.getTopicName(),
+                null, // you may specify the partition here or keep it null to use Kafka's default partitioner
+                null, // timestamp, if needed, otherwise can be null to use current time
+                null, // key - should be specified if you use a custom partitioner based on the key
+                sagaKafkaMessage.getMessageContent(),
+                headers
+        );
+
+        producer.send(record, (metadata, exception) -> {
             if (exception != null) {
                 isMessageSent = false;
             }
         });
+
         producer.close();
         producer = new KafkaProducer<>(propertiesForProducer);
+
         if (!isMessageSent){
-            isMessageSent = true;
+            isMessageSent = true; // This line is not needed because if the message could not be sent, an exception is thrown and the variable is not accessed anymore
             throw new KafkaMessageCouldNotSendException();
         }
-
+        return uuidString;
     }
 
 

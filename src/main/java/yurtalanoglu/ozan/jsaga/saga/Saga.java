@@ -101,11 +101,11 @@ public class Saga<T,S> {
     }
 
      private SagaKafkaMessage sendCommandAndTakeResponseWithKafka(SagaKafkaMessage commandMessage) throws SagaCommandResponseTimeoutExceededException, KafkaMessageCouldNotSendException {
-        sagaKafkaProducer.sendMessage(commandMessage);
+        String uuid = sagaKafkaProducer.sendMessage(commandMessage);
         StringBuilder commandResponseTopicStringBuilder = new StringBuilder();
         commandResponseTopicStringBuilder.append(commandMessage.getTopicName()).append("-response");
         SagaKafkaTopic commandResponseTopic = new SagaKafkaTopic(commandResponseTopicStringBuilder.toString());
-        sagaKafkaConsumer.setAndSubscribeTopic(commandResponseTopic);
+        sagaKafkaConsumer.setAndSubscribeTopic(commandResponseTopic,uuid);
         return sagaKafkaConsumer.consumeMessageWithTimeout(commandMessageResponseTimeoutSeconds);
     }
 
