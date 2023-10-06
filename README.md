@@ -1,3 +1,7 @@
+<p align="center">
+  <img src=https://i.imgur.com/a9PTiUl.png width="500" height="300">
+<p>
+
 # About
 
 JSaga is a software library for creating orchestration based saga pattern in microservice architecture. You can easily create your saga by adding steps to the saga using JSaga. You can also handle compensation scenarios to reverse the data to their initial states in the microservices which are part of the saga. JSaga is avaliable for java programming language for now. You will need to setup a kafka broker for communication between your microservices tu use JSaga.
@@ -37,7 +41,7 @@ Each service is responsible for its own part of the whole transaction. If the ho
 
 Each step in the saga represents a separate transaction. If any of these transactions fail, the saga ensures that compensating transactions are executed to maintain data consistency.
 
-How JSaga Works
+# How JSaga Works
 
 JSaga offers some classes to implement orchestration based saga pattern in ease. After you use these classes to implement your own saga, the saga you created works to communicate with other microservices over kafka broker. All you need to do is setup a kafka broker and do necessary configuration in your "build.gradle" and "application.properties" files. You can add jsaga.jar file to your build.gradle file after you download it.(For now I have been some trouble with mavencentral) Also you have to add some dependicies related to kafka. 
 
